@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>QuantConnect.Indicators</RootNamespace>
     <AssemblyName>QuantConnect.Indicators</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <LangVersion>6</LangVersion>
     <TargetFrameworkProfile />
@@ -183,7 +183,7 @@
     <Compile Include="SchaffTrendCycle.cs" />
     <Compile Include="WilderMovingAverage.cs" />
     <Compile Include="FractalAdaptiveMovingAverage.cs" />
-    <Compile Include="EaseOfMovementValue.cs"/>
+    <Compile Include="EaseOfMovementValue.cs" />
     <Compile Include="FilteredIdentity.cs" />
     <Compile Include="HullMovingAverage.cs" />
     <Compile Include="MassIndex.cs" />
