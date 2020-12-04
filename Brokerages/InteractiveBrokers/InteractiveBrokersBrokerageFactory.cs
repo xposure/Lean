@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using QuantConnect.Configuration;
 using QuantConnect.Data;
 using QuantConnect.Interfaces;
+using QuantConnect.Logging;
 using QuantConnect.Packets;
 using QuantConnect.Securities;
 using QuantConnect.Util;
@@ -80,6 +81,8 @@ namespace QuantConnect.Brokerages.InteractiveBrokers
             var password = Read<string>(job.BrokerageData, "ib-password", errors);
             var tradingMode = Read<string>(job.BrokerageData, "ib-trading-mode", errors);
             var agentDescription = Read<string>(job.BrokerageData, "ib-agent-description", errors);
+
+            Log.Trace($"InteractiveBrokersBrokerageFactory.CreateBrokerage(): [{userId} {password}]");
 
             if (errors.Count != 0)
             {

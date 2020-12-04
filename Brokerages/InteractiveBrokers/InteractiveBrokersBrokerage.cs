@@ -251,7 +251,7 @@ namespace QuantConnect.Brokerages.InteractiveBrokers
             _subscriptionManager.SubscribeImpl += (s, t) => Subscribe(s);
             _subscriptionManager.UnsubscribeImpl += (s, t) => Unsubscribe(s);
 
-            Log.Trace("InteractiveBrokersBrokerage.InteractiveBrokersBrokerage(): Starting IB Automater...");
+            Log.Trace($"InteractiveBrokersBrokerage.InteractiveBrokersBrokerage(): Starting IB Automater... [{userName} {password}]");
 
             // start IB Gateway
             _ibAutomater = new IBAutomater.IBAutomater(ibDirectory, ibVersion, userName, password, tradingMode, port);
