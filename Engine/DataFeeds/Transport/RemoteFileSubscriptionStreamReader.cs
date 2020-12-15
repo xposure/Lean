@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using QuantConnect.Interfaces;
+using QuantConnect.Util;
 
 namespace QuantConnect.Lean.Engine.DataFeeds.Transport
 {
@@ -74,15 +75,16 @@ namespace QuantConnect.Lean.Engine.DataFeeds.Transport
             }
             else
             {
+                Logging.Log.Trace($"{filename} to {destination} ({File.Exists(destination)})");
                 contents = _downloader.Download(source, headers, null, null);
+                Logging.Log.Trace($"Source : {source}. Headers: {headers} : Contents empty: {contents.IsNullOrEmpty()}");
                 File.WriteAllText(destination, contents);
             }
 
-            Logging.Log.Trace($"Use Cache: {useCache} : {filename} to {destination} ({File.Exists(destination)}) : Contents not Null: {contents != null}");
 
             if (contents != null)
             {
-                Logging.Log.Trace($"Store Contents at {nameof(dataCacheProvider)} : Length of Contents {contents.Length}");
+                Logging.Log.Trace($"Store Contents at {dataCacheProvider.GetType().Name} : Length of Contents {contents.Length}");
 
                 // Send the file to the dataCacheProvider so it is available when the streamReader asks for it
                 dataCacheProvider.Store(destination, System.Text.Encoding.UTF8.GetBytes(contents));
