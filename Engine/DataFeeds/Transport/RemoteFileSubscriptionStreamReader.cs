@@ -82,6 +82,8 @@ namespace QuantConnect.Lean.Engine.DataFeeds.Transport
 
             if (contents != null)
             {
+                Logging.Log.Trace($"Store Contents at {nameof(dataCacheProvider)} : Length of Contents {contents.Length}");
+
                 // Send the file to the dataCacheProvider so it is available when the streamReader asks for it
                 dataCacheProvider.Store(destination, System.Text.Encoding.UTF8.GetBytes(contents));
             }

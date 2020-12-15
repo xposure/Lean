@@ -51,6 +51,8 @@ namespace QuantConnect.Lean.Engine.DataFeeds.Transport
         {
             var stream = dataCacheProvider.Fetch(source);
 
+            Logging.Log.Trace($"Fetch contents from {nameof(dataCacheProvider)}({source}) : Success? {stream != null}");
+
             if (stream != null)
             {
                 StreamReader = new StreamReader(stream);
