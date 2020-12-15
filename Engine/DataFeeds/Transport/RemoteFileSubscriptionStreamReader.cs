@@ -59,6 +59,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds.Transport
             var filename = (useCache ? source.ToMD5() : Guid.NewGuid().ToString())  + source.GetExtension();
             var destination = Path.Combine(downloadDirectory, filename);
 
+
             string contents = null;
             if (useCache)
             {
@@ -76,6 +77,8 @@ namespace QuantConnect.Lean.Engine.DataFeeds.Transport
                 contents = _downloader.Download(source, headers, null, null);
                 File.WriteAllText(destination, contents);
             }
+
+            Logging.Log.Trace($"Use Cache: {useCache} : {filename} to {destination} ({File.Exists(destination)}) : Contents not Null: {contents != null}");
 
             if (contents != null)
             {
