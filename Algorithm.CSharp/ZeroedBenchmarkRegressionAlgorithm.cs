@@ -85,7 +85,7 @@ namespace QuantConnect.Algorithm.CSharp
             {"Loss Rate", "0%"},
             {"Win Rate", "0%"},
             {"Profit-Loss Ratio", "0"},
-            {"Total Fees", "$3.25"},
+            {"Total Fees", "$3.43"},
             {"Fitness Score", "0.498"},
             {"Kelly Criterion Estimate", "0"},
             {"Kelly Criterion Probability Value", "0"},
@@ -103,7 +103,7 @@ namespace QuantConnect.Algorithm.CSharp
             {"Mean Population Magnitude", "0%"},
             {"Rolling Averaged Population Direction", "0%"},
             {"Rolling Averaged Population Magnitude", "0%"},
-            {"OrderListHash", "-1491193070"}
+            {"OrderListHash", "1709654172"}
         };
 
         internal class TestBrokerageModel : DefaultBrokerageModel
