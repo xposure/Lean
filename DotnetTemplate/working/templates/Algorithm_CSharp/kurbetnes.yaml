@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: Algorithm_CSharp
+  namespace: default
+  labels:
+    app: Algorithm_CSharp
+spec:
+  selector:
+    matchLabels:
+      app: Algorithm_CSharp
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: Algorithm_CSharp
+    spec:
+      containers:
+        - name: Algorithm_CSharp
+          image: Algorithm_CSharp
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi

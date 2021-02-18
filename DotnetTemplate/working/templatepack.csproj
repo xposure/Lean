@@ -3,7 +3,7 @@
   <PropertyGroup>
     <IsPackable>True</IsPackable>
     <PackageType>Template</PackageType>
-    <PackageVersion>1.0</PackageVersion>
+    <PackageVersion>1.0.1</PackageVersion>
     <PackageId>Lean-NET5</PackageId>
     <Title>QuantConnect Lean Templates</Title>
     <Authors>xposure</Authors>

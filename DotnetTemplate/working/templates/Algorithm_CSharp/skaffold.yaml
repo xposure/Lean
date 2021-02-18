@@ -1,0 +1,14 @@
+apiVersion: skaffold/v2beta11
+kind: Config
+metadata:
+  name: working
+build:
+  artifacts:
+  - image: Algorithm_CSharp
+    context: src
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - src/kurbetnes.yaml
