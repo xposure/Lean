@@ -48,6 +48,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
         private ITimeProvider _timeProvider;
         private ITimeProvider _frontierTimeProvider;
         private IDataProvider _dataProvider;
+        private IMapFileProvider _mapFileProvider;
         private IDataQueueHandler _dataQueueHandler;
         private BaseDataExchange _customExchange;
         private SubscriptionCollection _subscriptions;
@@ -85,8 +86,8 @@ namespace QuantConnect.Lean.Engine.DataFeeds
             _job = (LiveNodePacket) job;
             _timeProvider = dataFeedTimeProvider.TimeProvider;
             _dataProvider = dataProvider;
+            _mapFileProvider = mapFileProvider;
             _channelProvider = dataChannelProvider;
-
             _frontierTimeProvider = dataFeedTimeProvider.FrontierTimeProvider;
             _customExchange = new BaseDataExchange("CustomDataExchange") {SleepInterval = 10};
             _subscriptions = subscriptionManager.DataFeedSubscriptions;
@@ -239,12 +240,27 @@ namespace QuantConnect.Lean.Engine.DataFeeds
                     EventHandler handler = (sender, args) => subscription?.OnNewDataAvailable();
                     enumerator = _dataQueueHandler.Subscribe(request.Configuration, handler);
 
-                    if (request.Configuration.SecurityType == SecurityType.Equity && CorporateEventEnumeratorFactory.ShouldEmitAuxiliaryBaseData(request.Configuration))
+                    if (CorporateEventEnumeratorFactory.ShouldEmitAuxiliaryBaseData(request.Configuration))
                     {
-                        var dividends = _dataQueueHandler.Subscribe(new SubscriptionDataConfig(request.Configuration, typeof(Dividend)), handler);
-                        var splits = _dataQueueHandler.Subscribe(new SubscriptionDataConfig(request.Configuration, typeof(Split)), handler);
+                        var securityType = request.Configuration.SecurityType;
+                        var auxEnumerators = new List<IEnumerator<BaseData>>();
 
-                        enumerator = new LiveEquityDataSynchronizingEnumerator(_timeProvider, request.Configuration.ExchangeTimeZone, enumerator, dividends, splits);
+                        if (securityType == SecurityType.Equity)
+                        {
+                            auxEnumerators.Add(_dataQueueHandler.Subscribe(new SubscriptionDataConfig(request.Configuration, typeof(Dividend)), handler));
+                            auxEnumerators.Add(_dataQueueHandler.Subscribe(new SubscriptionDataConfig(request.Configuration, typeof(Split)), handler));
+                        }
+
+                        IEnumerator<BaseData> delistingEnumerator;
+                        if (LiveDelistingEventProviderEnumerator.TryCreate(request.Configuration, _timeProvider, _dataQueueHandler, request.Security.Cache, _mapFileProvider, out delistingEnumerator))
+                        {
+                            auxEnumerators.Add(delistingEnumerator);
+                        }
+
+                        if (auxEnumerators.Count > 0)
+                        {
+                            enumerator = new LiveAuxiliaryDataSynchronizingEnumerator(_timeProvider, request.Configuration.ExchangeTimeZone, enumerator, auxEnumerators.ToArray());
+                        }
                     }
                 }
 
@@ -258,7 +274,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
                 // define market hours and user filters to incoming data
                 if (request.Configuration.IsFilteredSubscription)
                 {
-                    enumerator = new SubscriptionFilterEnumerator(enumerator, request.Security, localEndTime, request.Configuration.ExtendedMarketHours, true);
+                    enumerator = new SubscriptionFilterEnumerator(enumerator, request.Security, localEndTime, request.Configuration.ExtendedMarketHours, true, request.ExchangeHours);
                 }
 
                 // finally, make our subscriptions aware of the frontier of the data feed, prevents future data from spewing into the feed
