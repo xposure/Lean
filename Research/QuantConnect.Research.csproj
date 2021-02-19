@@ -6,6 +6,7 @@
     <PackageId>Xposure.Research</PackageId>
     <TargetFramework>net50</TargetFramework>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <Description>QuantConnect LEAN Engine: Research Project - Core implementation for jupyter research environment</Description>
   </PropertyGroup>
   <Choose>
     <When Condition="$(IsWindows) AND '$(ForceLinuxBuild)' != 'true'">
@@ -51,6 +52,9 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="..\Common\Properties\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -80,6 +84,10 @@
     <Content Include="QuantConnect.csx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="readme.md" />
     <Content Include="start.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

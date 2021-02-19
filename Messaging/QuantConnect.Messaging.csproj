@@ -8,6 +8,8 @@
     <DocumentationFile>bin\$(Configuration)\QuantConnect.Messaging.xml</DocumentationFile>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <Description>QuantConnect LEAN Engine: Messaging Project - The external messaging system implementation</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AsyncIO" Version="0.1.69" />
@@ -26,5 +28,11 @@
     <ProjectReference Include="..\Common\QuantConnect.csproj" />
     <ProjectReference Include="..\Configuration\QuantConnect.Configuration.csproj" />
     <ProjectReference Include="..\Logging\QuantConnect.Logging.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@
     <DocumentationFile>bin\$(Configuration)\QuantConnect.Algorithm.Framework.xml</DocumentationFile>
     <PackageTags>Library</PackageTags>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <Description>QuantConnect LEAN Engine: Algorithm.Framework Project - The core QCAlgorithm framework implementation</Description>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Accord" Version="3.8.0" />
@@ -147,5 +148,11 @@
     <Content Include="Alphas\MacdAlphaModel.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>

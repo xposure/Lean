@@ -8,6 +8,8 @@
     <RestorePackages>true</RestorePackages>
     <DocumentationFile>bin\$(Configuration)\QuantConnect.Configuration.xml</DocumentationFile>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <Description>QuantConnect LEAN Engine: Configuration Project - The Config and argument parser implementation</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="3.1.0" />
@@ -22,5 +24,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Logging\QuantConnect.Logging.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>

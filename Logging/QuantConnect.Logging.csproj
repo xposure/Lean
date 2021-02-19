@@ -8,6 +8,8 @@
     <RestorePackages>true</RestorePackages>
     <DocumentationFile>bin\$(Configuration)\QuantConnect.Logging.xml</DocumentationFile>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <Description>QuantConnect LEAN Engine: Logging Project - The logging library implementation</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
@@ -23,11 +25,9 @@
     <Compile Include="..\Common\Properties\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="NLog.xsd">
-      <SubType>Designer</SubType>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@
     <TargetFramework>net50</TargetFramework>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <Description>QuantConnect LEAN Engine: Algorithm.CSharp Project - A collection of C# algorithm demonstrations for how to use the API</Description>
   </PropertyGroup>
   <Choose>
     <When Condition="$(IsWindows) AND '$(ForceLinuxBuild)' != 'true'">
@@ -55,5 +56,11 @@
     <ProjectReference Include="..\Algorithm\QuantConnect.Algorithm.csproj" />
     <ProjectReference Include="..\Common\QuantConnect.csproj" />
     <ProjectReference Include="..\Indicators\QuantConnect.Indicators.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>

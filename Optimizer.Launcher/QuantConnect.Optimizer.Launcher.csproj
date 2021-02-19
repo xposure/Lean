@@ -7,9 +7,11 @@
     <TargetFramework>net50</TargetFramework>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Description>QuantConnect LEAN Engine: Optimizer Launcher Project - The Lean optimization engine launcher</Description>
   </PropertyGroup>
   <PropertyGroup>
     <Features>flow-analysis</Features>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
@@ -22,6 +24,10 @@
     <Compile Include="..\Common\Properties\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -7,6 +7,7 @@
     <TargetFramework>net50</TargetFramework>
     <DocumentationFile>bin\$(Configuration)\QuantConnect.Algorithm.xml</DocumentationFile>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <Description>QuantConnect LEAN Engine: Algorithm Project - Core QCAlgorithm implementation</Description>
   </PropertyGroup>
   <Choose>
     <When Condition="$(IsWindows) AND '$(ForceLinuxBuild)' != 'true'">
@@ -75,5 +76,11 @@
     <Content Include="Selection\UniverseSelectionModel.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>

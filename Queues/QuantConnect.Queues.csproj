@@ -7,6 +7,8 @@
     <TargetFramework>net50</TargetFramework>
     <DocumentationFile>bin\$(Configuration)\QuantConnect.Queues.xml</DocumentationFile>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <Description>QuantConnect LEAN Engine: Queues Project - Handles and generates live and backtesting algorithm jobs</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
@@ -22,5 +24,11 @@
     <ProjectReference Include="..\Configuration\QuantConnect.Configuration.csproj" />
     <ProjectReference Include="..\Common\QuantConnect.csproj" />
     <ProjectReference Include="..\Logging\QuantConnect.Logging.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>

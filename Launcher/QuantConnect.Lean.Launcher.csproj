@@ -7,6 +7,7 @@
     <PackageId>Xposure.Lean.Launcher</PackageId>
     <TargetFramework>net50</TargetFramework>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Description>QuantConnect LEAN Engine: Launcher Project - Main startup executable for live and backtesting</Description>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
@@ -43,6 +44,10 @@
     <ProjectReference Include="..\ToolBox\QuantConnect.ToolBox.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

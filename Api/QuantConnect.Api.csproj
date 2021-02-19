@@ -8,6 +8,8 @@
     <RestorePackages>true</RestorePackages>
     <DocumentationFile>bin\$(Configuration)\QuantConnect.Api.xml</DocumentationFile>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <Description>QuantConnect LEAN Engine: API Project - C# SDK for interaction with the QuantConnect.com</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DotNetZip" Version="1.15.0" />
@@ -32,5 +34,11 @@
     <ProjectReference Include="..\Common\QuantConnect.csproj" />
     <ProjectReference Include="..\Configuration\QuantConnect.Configuration.csproj" />
     <ProjectReference Include="..\Logging\QuantConnect.Logging.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>

@@ -8,12 +8,14 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <DocumentationFile>bin\$(Configuration)\QuantConnect.Report.xml</DocumentationFile>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Description>QuantConnect LEAN Engine: Report Project - Generates live and backtesting reports</Description>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>QuantConnect.Report.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <Features>flow-analysis</Features>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
   <Choose>
     <When Condition="$(IsWindows) AND '$(ForceLinuxBuild)' != 'true'">
@@ -77,6 +79,7 @@
     <ProjectReference Include="..\Engine\QuantConnect.Lean.Engine.csproj" />
     <ProjectReference Include="..\Logging\QuantConnect.Logging.csproj" />
     <ProjectReference Include="..\Messaging\QuantConnect.Messaging.csproj" />
+    <ProjectReference Include="..\ToolBox\QuantConnect.ToolBox.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ReportChartTests.py" />
@@ -86,5 +89,11 @@
     <Content Include="template.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>
