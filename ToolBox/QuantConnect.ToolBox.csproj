@@ -85,7 +85,7 @@
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
     <PackageReference Include="System.Threading.Timer" Version="4.3.0" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />    
-
+    <PackageReference Include="Xposure.WebSocketSharp" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net50' ">
     <Compile Remove="Fxcm*/**" />
@@ -126,7 +126,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\submodules\websocket-sharp\websocket-sharp\websocket-sharp.csproj" />
     <ProjectReference Include="..\Brokerages\QuantConnect.Brokerages.csproj" />
     <ProjectReference Include="..\Common\QuantConnect.csproj" />
     <ProjectReference Include="..\Compression\QuantConnect.Compression.csproj" />
