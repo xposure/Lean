@@ -26,7 +26,7 @@
 
   <PropertyGroup>
     <IsPackable>False</IsPackable>
-    <Version>8.1.5</Version>
+    <Version>8.1.6</Version>
     <Authors>QuantConnect Team and Community Contributors</Authors>
     <LicenseUrl>https://github.com/QuantConnect/Lean/blob/master/LICENSE</LicenseUrl>
     <ProjectUrl>https://github.com/QuantConnect/Lean</ProjectUrl>
@@ -38,4 +38,7 @@
     <Tags>algorithm algorithmic-trading-engine bitcoins broker c-sharp cfd crypto finance future forex fxcm gdax hft hft-trading interactive-brokers lean-engine markets nasdaq oanda options python quant quantconnect quantitative-finance stock-indicators trading trading-algorithms trading-bot trading-platform trading-robots trading-strategies</Tags>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <NoWarn>1591,0618,1574,1570,1734</NoWarn>
+  </PropertyGroup>
 </Project>

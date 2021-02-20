@@ -1,5 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>qcl</ToolCommandName>  
     <IsPackable>true</IsPackable>
     <OutputType>Exe</OutputType>
     <RootNamespace>QuantConnect.Lean.Launcher</RootNamespace>
