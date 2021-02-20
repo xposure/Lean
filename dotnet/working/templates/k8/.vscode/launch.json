@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Skaffold Debug",
+            "type": "coreclr",
+            "request": "attach",
+            "processId" : 1, 
+            "justMyCode": true, // set to `true` in debug configuration and `false` in release configuration
+            "pipeTransport": {
+                "pipeProgram": "kubectl",
+                "pipeArgs": [
+                    "exec",
+                    "-i",
+                    "deploy/Algorithm_CSharp", // name of the pod you debug.
+                    "--"
+                ],
+                "pipeCwd": "${workspaceFolder}/app",
+                "debuggerPath": "/dbg/netcore/vsdbg", // location where vsdbg binary installed.
+                "quoteArgs": false
+            },
+            "sourceFileMap": {
+                // Change this mapping if your app in not deployed in /src or /app in your docker image
+                "/src": "${workspaceFolder}/src",
+                "/app": "${workspaceFolder}/app"
+            }
+        }
+    ]
+}
