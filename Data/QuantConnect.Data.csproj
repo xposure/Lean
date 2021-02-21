@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Version>1.0.2</Version>
+    <IsPackable>true</IsPackable>
+    <Id>QuantConnect.Data</Id>
+    <DevelopmentDependency>True</DevelopmentDependency>
+    <IncludeAssets>none</IncludeAssets>
+    <ExcludeAssets>all</ExcludeAssets>
+    <PrivateAssets>contentFiles</PrivateAssets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>QuantConnect.Data</RootNamespace>
+    <AssemblyName>QuantConnect.Data</AssemblyName>
+    <PackageId>Xposure.Data</PackageId>
+    <TargetFramework>net50</TargetFramework>
+    <Description>QuantConnect LEAN Engine: Data Project - A library with sample data</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Pack="True" PackagePath="data\alternative" Include="alternative/**" />
+    <None Pack="True" PackagePath="data\cfd" Include="cfd/**" />
+    <None Pack="True" PackagePath="data\crypto" Include="crypto/**" />
+    <None Pack="True" PackagePath="data\equity" Include="equity/**" />
+    <None Pack="True" PackagePath="data\forex" Include="forex/**" />
+    <None Pack="True" PackagePath="data\future" Include="future/**" />
+    <None Pack="True" PackagePath="data\futureoption" Include="futureoption/**" />
+    <None Pack="True" PackagePath="data\option" Include="option/**" />
+    <None Pack="True" PackagePath="data\symbol-properties" Include="symbol-properties/**" />
+    <None Pack="True" PackagePath="data\market-hours" Include="market-hours/**" />
+
+    <None Remove="bin/**" />
+    <None Remove="obj/**" />
+    <None Remove="**/.keep" />
+    
+    <Compile Remove="**\*" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
