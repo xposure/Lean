@@ -4,7 +4,7 @@
     <IsPackable>True</IsPackable>
     <PackageType>Template</PackageType>
     <PackageVersion>1.0.1</PackageVersion>
-    <PackageId>Lean-NET5</PackageId>
+    <PackageId>Xposure.Lean.Templates</PackageId>
     <Title>QuantConnect Lean Templates</Title>
     <Authors>xposure</Authors>
     <Description>Allows easy creation of dotnet projects that allow for quickly testing algorithms in docker.</Description>
@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
+    <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**;docker\**;k8\**" />
     <Compile Remove="**\*" />
   </ItemGroup>
 

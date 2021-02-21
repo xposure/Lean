@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>   
+    <PackageReference Include="Xposure.Algorithm.CSharp" Version="$(XposureFramework)" />
+    <PackageReference Include="Xposure.AlgorithmFactory" Version="$(XposureFramework)" />
+    <PackageReference Include="Xposure.Algorithm" Version="$(XposureFramework)" />
+    <PackageReference Include="Xposure.Api" Version="$(XposureFramework)" />
+    <PackageReference Include="Xposure.Brokerages" Version="$(XposureFramework)" />
+    <PackageReference Include="Xposure.Compression" Version="$(XposureFramework)" />
+    <PackageReference Include="Xposure.Configuration" Version="$(XposureFramework)" />
+    <PackageReference Include="Xposure.Lean.Engine" Version="$(XposureFramework)" />
+    <PackageReference Include="Xposure.Indicators" Version="$(XposureFramework)" />
+    <PackageReference Include="Xposure.Common" Version="$(XposureFramework)" />
+    <PackageReference Include="Xposure.Research" Version="$(XposureFramework)" />
+    <PackageReference Include="Xposure.Logging" Version="$(XposureFramework)" />
+    <PackageReference Include="Xposure.Messaging" Version="$(XposureFramework)" />
+    <PackageReference Include="Xposure.Queues" Version="$(XposureFramework)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Python.Runtime, Version=1.0.5.30, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>$(NuGetPackageRoot)\quantconnect.pythonnet\1.0.5.30\lib\linux\Python.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

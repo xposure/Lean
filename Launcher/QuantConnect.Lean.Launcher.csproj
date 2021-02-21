@@ -1,12 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackAsTool>true</PackAsTool>
-    <ToolCommandName>qcl</ToolCommandName>  
-    <IsPackable>true</IsPackable>
     <OutputType>Exe</OutputType>
     <RootNamespace>QuantConnect.Lean.Launcher</RootNamespace>
     <AssemblyName>QuantConnect.Lean.Launcher</AssemblyName>
-    <PackageId>Xposure.Lean.Launcher</PackageId>
     <TargetFramework>net50</TargetFramework>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Description>QuantConnect LEAN Engine: Launcher Project - Main startup executable for live and backtesting</Description>

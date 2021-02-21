@@ -18,6 +18,7 @@ using System;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading;
+using QuantConnect;
 using QuantConnect.Configuration;
 using QuantConnect.Lean.Engine;
 using QuantConnect.Logging;
@@ -49,9 +50,6 @@ namespace Algorithm_CSharp
         {
             //Initialize:
             var mode = "RELEASE";
-            #if DEBUG
-                mode = "DEBUG";
-            #endif
 
             if (OS.IsWindows)
             {
@@ -135,7 +133,7 @@ namespace Algorithm_CSharp
 
                 leanEngineSystemHandlers.LeanManager.Initialize(leanEngineSystemHandlers, leanEngineAlgorithmHandlers, job, algorithmManager);
 
-                var engine = new Engine.Engine(leanEngineSystemHandlers, leanEngineAlgorithmHandlers, liveMode);
+                var engine = new Engine(leanEngineSystemHandlers, leanEngineAlgorithmHandlers, liveMode);
                 engine.Run(job, algorithmManager, assemblyPath, WorkerThread.Instance);
             }
             finally
