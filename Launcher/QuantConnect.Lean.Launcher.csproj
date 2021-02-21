@@ -45,9 +45,6 @@
     <ProjectReference Include="..\Queues\QuantConnect.Queues.csproj" />
     <ProjectReference Include="..\ToolBox\QuantConnect.ToolBox.csproj" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(Configuration)' == 'Release' ">
-    <EmbeddedResource Include="..\Data\**" />
-  </ItemGroup>
   <ItemGroup>
     <None Include="..\LICENSE">
       <Pack>True</Pack>
