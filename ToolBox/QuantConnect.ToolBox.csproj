@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <IsPackable>true</IsPackable>
     <OutputType>Exe</OutputType>
     <RootNamespace>QuantConnect.ToolBox</RootNamespace>
     <AssemblyName>QuantConnect.ToolBox</AssemblyName>

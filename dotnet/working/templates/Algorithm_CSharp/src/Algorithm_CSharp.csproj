@@ -7,19 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>   
-    <PackageReference Include="Xposure.Algorithm" Version="8.1.6" />
-    <PackageReference Include="Xposure.Algorithm.CSharp" Version="8.1.6" />
-    <PackageReference Include="Xposure.Algorithm.Framework" Version="8.1.6" />
-    <PackageReference Include="Xposure.AlgorithmFactory" Version="8.1.6" />
-    <PackageReference Include="Xposure.Brokerages" Version="8.1.6" />
-    <PackageReference Include="Xposure.Common" Version="8.1.6" />
-    <PackageReference Include="Xposure.Compression" Version="8.1.6" />
-    <PackageReference Include="Xposure.Configuration" Version="8.1.6" />
-    <PackageReference Include="Xposure.Indicators" Version="8.1.6" />
-    <PackageReference Include="Xposure.Logging" Version="8.1.6" />
-    <PackageReference Include="Xposure.Messaging" Version="8.1.6" />
-    <PackageReference Include="Xposure.Queues" Version="8.1.6" />
+    <PackageReference Include="Xposure.Algorithm.CSharp" Version="8.1.7" />
+    <PackageReference Include="Xposure.AlgorithmFactory" Version="8.1.7" />
+    <PackageReference Include="Xposure.Algorithm" Version="8.1.7" />
+    <PackageReference Include="Xposure.Api" Version="8.1.7" />
+    <PackageReference Include="Xposure.Brokerages" Version="8.1.7" />
+    <PackageReference Include="Xposure.Compression" Version="8.1.7" />
+    <PackageReference Include="Xposure.Configuration" Version="8.1.7" />
+    <PackageReference Include="Xposure.Lean.Engine" Version="8.1.7" />
+    <PackageReference Include="Xposure.Indicators" Version="8.1.7" />
+    <PackageReference Include="Xposure.Common" Version="8.1.7" />
+    <PackageReference Include="Xposure.Research" Version="8.1.7" />
+    <PackageReference Include="Xposure.Logging" Version="8.1.7" />
+    <PackageReference Include="Xposure.Messaging" Version="8.1.7" />
+    <PackageReference Include="Xposure.Queues" Version="8.1.7" />
+    <PackageReference Include="Xposure.ToolBox" Version="8.1.7" />
+    <PackageReference Include="Xposure.Data" Version="1.0.1" />
   </ItemGroup>
+
   <ItemGroup>
     <Reference Include="Python.Runtime, Version=1.0.5.30, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>$(NuGetPackageRoot)\quantconnect.pythonnet\1.0.5.30\lib\linux\Python.Runtime.dll</HintPath>

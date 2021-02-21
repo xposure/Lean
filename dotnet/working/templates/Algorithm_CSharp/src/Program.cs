@@ -11,127 +11,165 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
 */
 
 using System;
-using System.Collections.Generic;
-using QuantConnect.Algorithm.Framework.Alphas;
-using QuantConnect.Algorithm.Framework.Execution;
-using QuantConnect.Algorithm.Framework.Portfolio;
-using QuantConnect.Algorithm.Framework.Risk;
-using QuantConnect.Algorithm.Framework.Selection;
-using QuantConnect.Orders;
-using QuantConnect.Interfaces;
-using QuantConnect.Algorithm;
-using QuantConnect;
-
+using System.ComponentModel.Composition;
+using System.IO;
+using System.Threading;
+using QuantConnect.Configuration;
+using QuantConnect.Lean.Engine;
+using QuantConnect.Logging;
+using QuantConnect.Packets;
+using QuantConnect.Util;
 
 namespace Algorithm_CSharp
 {
-    /// <summary>
-    /// Basic template framework algorithm uses framework components to define the algorithm.
-    /// </summary>
-    /// <meta name="tag" content="using data" />
-    /// <meta name="tag" content="using quantconnect" />
-    /// <meta name="tag" content="trading and orders" />
-    public class LeanFrameworkAlgorithm : QCAlgorithm, IRegressionAlgorithmDefinition
+    public class Program
     {
-        /// <summary>
-        /// Initialise the data and resolution required, as well as the cash and start-end dates for your algorithm. All algorithms must initialized.
-        /// </summary>
-        public override void Initialize()
+        private const string _collapseMessage = "Unhandled exception breaking past controls and causing collapse of algorithm node. This is likely a memory leak of an external dependency or the underlying OS terminating the LEAN engine.";
+        private static LeanEngineSystemHandlers leanEngineSystemHandlers;
+        private static LeanEngineAlgorithmHandlers leanEngineAlgorithmHandlers;
+        private static AlgorithmNodePacket job;
+        private static AlgorithmManager algorithmManager;
+
+        static Program()
         {
-            // Set requested data resolution
-            UniverseSettings.Resolution = Resolution.Minute;
-
-            SetStartDate(2013, 10, 07);  //Set Start Date
-            SetEndDate(2013, 10, 11);    //Set End Date
-            SetCash(100000);             //Set Strategy Cash
-
-            // Find more symbols here: http://quantconnect.com/data
-            // Forex, CFD, Equities Resolutions: Tick, Second, Minute, Hour, Daily.
-            // Futures Resolution: Tick, Second, Minute
-            // Options Resolution: Minute Only.
-
-            // set algorithm framework models
-            SetUniverseSelection(new ManualUniverseSelectionModel(QuantConnect.Symbol.Create("SPY", SecurityType.Equity, Market.USA)));
-            SetAlpha(new ConstantAlphaModel(InsightType.Price, InsightDirection.Up, TimeSpan.FromMinutes(20), 0.025, null));
-
-            // We can define who often the EWPCM will rebalance if no new insight is submitted using:
-            // Resolution Enum:
-            SetPortfolioConstruction(new EqualWeightingPortfolioConstructionModel(Resolution.Daily));
-            // TimeSpan
-            // SetPortfolioConstruction(new EqualWeightingPortfolioConstructionModel(TimeSpan.FromDays(2)));
-            // A Func<DateTime, DateTime>. In this case, we can use the pre-defined func at Expiry helper class
-            // SetPortfolioConstruction(new EqualWeightingPortfolioConstructionModel(Expiry.EndOfWeek));
-
-            SetExecution(new ImmediateExecutionModel());
-            SetRiskManagement(new MaximumDrawdownPercentPerSecurity(0.01m));
+            AppDomain.CurrentDomain.AssemblyLoad += (sender, e) =>
+            {
+                if (e.LoadedAssembly.FullName.ToLowerInvariant().Contains("python"))
+                {
+                    Log.Trace($"Python for .NET Assembly: {e.LoadedAssembly.GetName()}");
+                }
+            };
         }
 
-        public override void OnOrderEvent(OrderEvent orderEvent)
+        static void Main(string[] args)
         {
-            if (orderEvent.Status.IsFill())
+            //Initialize:
+            var mode = "RELEASE";
+            #if DEBUG
+                mode = "DEBUG";
+            #endif
+
+            if (OS.IsWindows)
             {
-                Debug($"Purchased Stock: {orderEvent.Symbol}");
+                Console.OutputEncoding = System.Text.Encoding.UTF8;
+            }
+
+            // expect first argument to be config file name
+            if (args.Length > 0)
+            {
+                Config.MergeCommandLineArgumentsWithConfiguration(LeanArgumentParser.ParseArguments(args));
+            }
+
+            var environment = Config.Get("environment");
+            var liveMode = Config.GetBool("live-mode");
+            Log.DebuggingEnabled = Config.GetBool("debug-mode");
+            Log.FilePath = Path.Combine(Config.Get("results-destination-folder"), "log.txt");
+            Log.LogHandler = Composer.Instance.GetExportedValueByTypeName<ILogHandler>(Config.Get("log-handler", "CompositeLogHandler"));
+
+            //Name thread for the profiler:
+            Thread.CurrentThread.Name = "Algorithm Analysis Thread";
+            Log.Trace("Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v" + Globals.Version + " Mode: " + mode + " (" + (Environment.Is64BitProcess ? "64" : "32") + "bit)");
+            Log.Trace("Engine.Main(): Started " + DateTime.Now.ToShortTimeString());
+
+            //Import external libraries specific to physical server location (cloud/local)
+
+            try
+            {
+                leanEngineSystemHandlers = LeanEngineSystemHandlers.FromConfiguration(Composer.Instance);
+            }
+            catch (CompositionException compositionException)
+            {
+                Log.Error("Engine.Main(): Failed to load library: " + compositionException);
+                throw;
+            }
+
+            //Setup packeting, queue and controls system: These don't do much locally.
+            leanEngineSystemHandlers.Initialize();
+
+            //-> Pull job from QuantConnect job queue, or, pull local build:
+            string assemblyPath;
+            job = leanEngineSystemHandlers.JobQueue.NextJob(out assemblyPath);
+
+            if (job == null)
+            {
+                const string jobNullMessage = "Engine.Main(): Sorry we could not process this algorithm request.";
+                Log.Error(jobNullMessage);
+                throw new ArgumentException(jobNullMessage);
+            }
+
+            try
+            {
+                leanEngineAlgorithmHandlers = LeanEngineAlgorithmHandlers.FromConfiguration(Composer.Instance);
+            }
+            catch (CompositionException compositionException)
+            {
+                Log.Error("Engine.Main(): Failed to load library: " + compositionException);
+                throw;
+            }
+
+            // if the job version doesn't match this instance version then we can't process it
+            // we also don't want to reprocess redelivered jobs
+            if (job.Redelivered)
+            {
+                Log.Error("Engine.Run(): Job Version: " + job.Version + "  Deployed Version: " + Globals.Version + " Redelivered: " + job.Redelivered);
+                //Tiny chance there was an uncontrolled collapse of a server, resulting in an old user task circulating.
+                //In this event kill the old algorithm and leave a message so the user can later review.
+                leanEngineSystemHandlers.Api.SetAlgorithmStatus(job.AlgorithmId, AlgorithmStatus.RuntimeError, _collapseMessage);
+                leanEngineSystemHandlers.Notify.SetAuthentication(job);
+                leanEngineSystemHandlers.Notify.Send(new RuntimeErrorPacket(job.UserId, job.AlgorithmId, _collapseMessage));
+                leanEngineSystemHandlers.JobQueue.AcknowledgeJob(job);
+                Exit(1);
+            }
+
+            try
+            {
+                // Set our exit handler for the algorithm
+                Console.CancelKeyPress += new ConsoleCancelEventHandler(ExitKeyPress);
+
+                // Create the algorithm manager and start our engine
+                algorithmManager = new AlgorithmManager(liveMode, job);
+
+                leanEngineSystemHandlers.LeanManager.Initialize(leanEngineSystemHandlers, leanEngineAlgorithmHandlers, job, algorithmManager);
+
+                var engine = new Engine.Engine(leanEngineSystemHandlers, leanEngineAlgorithmHandlers, liveMode);
+                engine.Run(job, algorithmManager, assemblyPath, WorkerThread.Instance);
+            }
+            finally
+            {
+                var algorithmStatus = algorithmManager?.State ?? AlgorithmStatus.DeployError;
+
+                Exit(algorithmStatus != AlgorithmStatus.Completed ? 1 : 0);
             }
         }
 
-        /// <summary>
-        /// This is used by the regression test system to indicate if the open source Lean repository has the required data to run this algorithm.
-        /// </summary>
-        public bool CanRunLocally { get; } = true;
-
-        /// <summary>
-        /// This is used by the regression test system to indicate which languages this algorithm is written in.
-        /// </summary>
-        public Language[] Languages { get; } = { Language.CSharp, Language.Python };
-
-        /// <summary>
-        /// This is used by the regression test system to indicate what the expected statistics are from running the algorithm
-        /// </summary>
-        public Dictionary<string, string> ExpectedStatistics => new Dictionary<string, string>
+        public static void ExitKeyPress(object sender, ConsoleCancelEventArgs args)
         {
-            {"Total Trades", "3"},
-            {"Average Win", "0%"},
-            {"Average Loss", "-1.01%"},
-            {"Compounding Annual Return", "254.782%"},
-            {"Drawdown", "2.200%"},
-            {"Expectancy", "-1"},
-            {"Net Profit", "1.632%"},
-            {"Sharpe Ratio", "8.371"},
-            {"Probabilistic Sharpe Ratio", "66.555%"},
-            {"Loss Rate", "100%"},
-            {"Win Rate", "0%"},
-            {"Profit-Loss Ratio", "0"},
-            {"Alpha", "-0.088"},
-            {"Beta", "1.006"},
-            {"Annual Standard Deviation", "0.221"},
-            {"Annual Variance", "0.049"},
-            {"Information Ratio", "-32.586"},
-            {"Tracking Error", "0.002"},
-            {"Treynor Ratio", "1.839"},
-            {"Total Fees", "$9.77"},
-            {"Fitness Score", "0.747"},
-            {"Kelly Criterion Estimate", "38.64"},
-            {"Kelly Criterion Probability Value", "0.229"},
-            {"Sortino Ratio", "79228162514264337593543950335"},
-            {"Return Over Maximum Drawdown", "85.209"},
-            {"Portfolio Turnover", "0.747"},
-            {"Total Insights Generated", "100"},
-            {"Total Insights Closed", "99"},
-            {"Total Insights Analysis Completed", "99"},
-            {"Long Insight Count", "100"},
-            {"Short Insight Count", "0"},
-            {"Long/Short Ratio", "100%"},
-            {"Estimated Monthly Alpha Value", "$126657.6305"},
-            {"Total Accumulated Estimated Alpha Value", "$20405.9516"},
-            {"Mean Population Estimated Insight Value", "$206.1207"},
-            {"Mean Population Direction", "54.5455%"},
-            {"Mean Population Magnitude", "54.5455%"},
-            {"Rolling Averaged Population Direction", "59.8056%"},
-            {"Rolling Averaged Population Magnitude", "59.8056%"},
-            {"OrderListHash", "17e29d58e5dabd93569da752c4552c70"}
-        };
+            // Allow our process to resume after this event
+            args.Cancel = true;
+
+            // Stop the algorithm
+            algorithmManager.SetStatus(AlgorithmStatus.Stopped);
+            Log.Trace("Program.ExitKeyPress(): Lean instance has been cancelled, shutting down safely now");
+        }
+
+        public static void Exit(int exitCode)
+        {
+            //Delete the message from the job queue:
+            leanEngineSystemHandlers.JobQueue.AcknowledgeJob(job);
+            Log.Trace("Engine.Main(): Packet removed from queue: " + job.AlgorithmId);
+
+            // clean up resources
+            leanEngineSystemHandlers.DisposeSafely();
+            leanEngineAlgorithmHandlers.DisposeSafely();
+            Log.LogHandler.DisposeSafely();
+            OS.CpuPerformanceCounter.DisposeSafely();
+
+            Log.Trace("Program.Main(): Exiting Lean...");
+            Environment.Exit(exitCode);
+        }
     }
 }

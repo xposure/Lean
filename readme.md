@@ -35,6 +35,7 @@ Updated to 37d26a35ce6ac1f14aba0a5bf234200e0540143d
 Removed submodules and turned them in to packages.
 Moved dotnet template to nuget.org at Xposure....
 Added dotnet cli tool to run launcher
+Making toolbox packable
 
 You can install the .NET template by downloading the file from `DotnetTemplate\Lean-NET5.1.0.0.nupkg` and then installing the template with `dotnet new -i Lean-NET5.1.0.0.nupkg` and you can uninstall it with `dotnet new -u Lean-NET5`. Once installed you can then run the following commands (skaffold support soon to come).
 
