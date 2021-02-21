@@ -8,44 +8,40 @@
 
 ## .NET 5 SUPPORT
 
+### Getting started
+
+To write your first algorithm you can use the dotnet template by running `dotnet new -i Xposure.Lean.Templates` (you can use `-u` to remove it). Once the template is installed, you can create a new project by `dotnet new lean`. This will create a sln and 2 projects, one project is your dll and the other project is the launcher. This direct also contains a .vscode folder for easy launching and debugging.
+
+### CHANGES
+
 - All projects have been moved to NET5.0 target
-- `R.NET` and `WebSocketSharp` were forked, added as a submodule and updated to NET5.0
+- `R.NET` and `WebSocketSharp` were forked, ~~added as a submodule~~ and updated to NET5.0
 - All csproj files have been cleaned up but still need more work
 - `Directory.Build.props` is being used to share settings across all projects
-- WIP: moving all package reference versions to `Directory.Build.props` so that package reference versioning can be located in a single place
 - Updated `dockerfile` to use `dotnet/sdk` as a build stage and `dotnet/runtime` as the target image
   - A testing playground docker image can be ran at `docker run -it --rm cphillips83/lean:1.0.0` or `docker run -it --rm --entrypoint /bin/bash cphillips83/lean:1.0.0`
 - All `nuspec` files were removed in favor on `dotnet pack` and csproj file settings
-- The packages for QuantConnect will be temporarily stored at https://nuget.pkg.github.com/xposure/index.json
-- There is a `dotnet template` located at https://nuget.pkg.github.com/xposure/index.json
-  - This will support skaffolding for easy debug and testing, but you could choose to run it without
-  - WIP
+- The packages for QuantConnect are stored on nuget.org ~~will be temporarily stored at https://nuget.pkg.github.com/xposure/index.json~~
+- There is a `dotnet template` located at nuget.org as Xposure.Lean.Templates `dotnet new -i Xposure.Lean.Templates` ~~https://nuget.pkg.github.com/xposure/index.json~~
+  - ~~This will support skaffolding for easy debug and testing, but you could choose to run it without~~
 - `Mono` tasks and launchers were removed
-  - Support will be added for docker debugging soon
+  - ~~Support will be added for docker debugging soon~~
 - Removed a lot of the build spam that doesn't seem relevant
 - Packages can be built from...
+
   - `dotnet pack -c Release -o packages` once this is pushed to nuget, look at adding ` --include-symbols --include-source` for better debugging support
   - `dotnet nuget push packages\ --source <SOURCE> --api-key <API-KEY>` you can add `--skip-duplicate` if something fails along the way
-- Current InteractiveBroker and FXCM are not including in the .NET5.0 builds until their are updated
-  If you would like to help complete this fork by running the tests and provide proper python support, please reach me on discord xposure#8248
-- quantconnect/pythonnet needs updated to .net5
+
 - Consider removing linux/windows/osx and just move to docker for a unified platform
+- Made toolbox packable
+- I have made the data folder a package that can be added to a project and then a copy entry can be added for testing purposes
 
-Updated to 37d26a35ce6ac1f14aba0a5bf234200e0540143d
-Removed submodules and turned them in to packages.
-Moved dotnet template to nuget.org at Xposure....
-Added dotnet cli tool to run launcher
-Making toolbox packable
+### TODOS
 
-You can install the .NET template by downloading the file from `DotnetTemplate\Lean-NET5.1.0.0.nupkg` and then installing the template with `dotnet new -i Lean-NET5.1.0.0.nupkg` and you can uninstall it with `dotnet new -u Lean-NET5`. Once installed you can then run the following commands (skaffold support soon to come).
-
-```
-mkdir test
-cd test
-dotnet new lean
-docker build -t test-algo .
-docker run -it --rm test-algo
-```
+- moving all package reference versions to `Directory.Build.props` so that package reference versioning can be located in a single place
+- quantconnect/pythonnet needs updated to .net5
+- Currently InteractiveBroker and FXCM are not including in the .NET5.0 builds until their are updated
+  If you would like to help complete this fork by running the tests and provide proper python support, please reach me on discord xposure#8248
 
 ## Introduction
 
