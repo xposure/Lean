@@ -4,7 +4,7 @@
     <LangVersion>9</LangVersion>
   </PropertyGroup>
   <PropertyGroup Label="UserMacros">
-    <XposureFramework>8.1.7</XposureFramework>
+    <XposureFramework>8.1.8</XposureFramework>
     <XposureData>1.0.2</XposureData>
   </PropertyGroup>
 </Project>

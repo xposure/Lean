@@ -3,7 +3,7 @@
   <PropertyGroup>
     <IsPackable>True</IsPackable>
     <PackageType>Template</PackageType>
-    <PackageVersion>1.0.2</PackageVersion>
+    <PackageVersion>1.0.3</PackageVersion>
     <PackageId>Xposure.Lean.Templates</PackageId>
     <Title>QuantConnect Lean Templates</Title>
     <Authors>xposure</Authors>
