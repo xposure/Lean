@@ -1,3 +1,35 @@
+# PLEASE READ
+
+`Master` is now the main code branch.
+
+For anyone wanting to get started you can now easily do it with a `dotnet` template.
+
+```
+dotnet new -i Xposure.Lean.Templates
+mkdir newproj
+cd newproj
+dotnet new lean
+code .
+```
+
+The above code will install the latest template, create a folder and project and then launch vscode. From here you can simply hit F5 to run and debug your algorithm.
+
+I'm sorry I can no longer update the original issue with my progress since I have been blocked access to it. Please voice your concerns if you'd like, either way, happy coding.
+
+As always, I can be reached on discord at xposure#8248 if you need any help with the templates.
+
+# A tale of getting banned from QuantConnect/Lean
+
+As of now, @jaredbroad has decided to block me from the QuantConnect/Lean project without merit or reason or even a simple conversation on how I can help. Not only that, his official response was nothing more than a partial update and a condescending remark towards me. All I wanted to do was see .NET 5 come to the Lean framework and they instead choose to take my work and pass it off as their own (or the very least use all my work as a reference). This is a matter of fact and has now been `hidden` because they went through and scrubbed my updates from the `net core` issue which showed that every time I made an update to my branch, there would be a couple of merges of my exact changes to their master. Example of nuspec being removed or specific libraries being updated, removal of unneeded library references still around because someone didn't take the time to actually do a real csproj update to the new SDK format, updating docker images to contain the build process and so on.
+
+I have virtually no respect for anyone that can act like this in an open source community and I felt a need to tell this story. I asked repeatedly for someone I could work with or talk to about my changes when my PR was rejected and I reached out to the individual that was doing the same changes I was doing after I did them. Neither @jaredbroad or @Martin-Molinero would respond to any of my requests to help. This is the eptimany of open source and I don't feel that the awesome community should have to suffer, so I will continue to work on this for anyone thats interested.
+
+If anything, my sacrifice has at least got them to finally make an official announcement update and perhaps more will come of it and they will start communicating more frequently on this topic. Hopefully it will force their hand by trying to remove me from the playing field and get what everyone else wants proper .NET 5 support (I will happy go away when we have this).
+
+I'm still open to helping @jaredbroad and the QuantConnect team to bring the project up to newer standards that doesn't just include .NET 5.0 despite all of this and would gladly have an offline conversation to remedy the situation. We could have had a simple dialogue about stopping the hammer approach and breaking up my PR in to little consumable pieces, there is plenty of value there that just isn't .NET 5 as @Martin-Molinero has obviously seen.
+
+/continuing_my_profressional_grind
+
 # ![alt tag](https://cdn.quantconnect.com/web/i/20180601-1615-lean-logo-small.png)
 
 [![Build Status](https://travis-ci.org/QuantConnect/Lean.svg?branch=feature%2Fremove-web-socket-4-net)](https://travis-ci.org/QuantConnect/Lean) &nbsp;&nbsp;&nbsp; [![LEAN Forum](https://img.shields.io/badge/debug-LEAN%20Forum-53c82b.svg)](https://www.quantconnect.com/forum) &nbsp;&nbsp;&nbsp; [![Slack Chat](https://img.shields.io/badge/chat-Slack-53c82b.svg)](https://www.quantconnect.com/slack)
